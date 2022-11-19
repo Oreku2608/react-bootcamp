@@ -12,22 +12,33 @@ export const TaskManager = () => {
 
   useEffect(() => {
     const fn = async () => {
-      const data = await fetch(
+      const response = await fetch(
         "https://api-bootcamp-production.up.railway.app/tasks"
       );
-      console.log(data);
+      const data = await response.json();
+      setTasks(data);
     };
     fn();
   }, []);
 
-  const addTask = (name: string) => {
-    const task: Task = {
-      id: tasks.length + 1,
+  const addTask = async (name: string) => {
+    const task: Omit<Task, "id"> = {
       name,
       completed: false,
     };
+    const response = await fetch(
+      "https://api-bootcamp-production.up.railway.app/tasks",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(task),
+      }
+    );
+    const data = await response.json();
     setTaskName("");
-    setTasks((old) => [...old, task]);
+    setTasks((old) => [...old, { ...task, id: data.id }]);
   };
 
   const removeTask = (id: number) => {
