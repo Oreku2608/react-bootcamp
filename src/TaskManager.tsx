@@ -20,6 +20,10 @@ export const TaskManager = () => {
     setTasks((old) => [...old, task]);
   };
 
+  const removeTask = (id: number) => {
+    setTasks((old) => old.filter((task) => task.id !== id));
+  };
+
   return (
     <>
       <form
@@ -47,7 +51,17 @@ export const TaskManager = () => {
       </form>
       <ul>
         {tasks.map((task) => (
-          <li key={task.id}>{task.name}</li>
+          <li key={task.id} style={{ display: "flex" }}>
+            <div>{task.name}</div>
+            <button
+              type="button"
+              onClick={() => {
+                removeTask(task.id);
+              }}
+            >
+              Eliminar
+            </button>
+          </li>
         ))}
       </ul>
     </>
