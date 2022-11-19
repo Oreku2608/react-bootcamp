@@ -41,7 +41,10 @@ export const TaskManager = () => {
     setTasks((old) => [...old, { ...task, id: data.id }]);
   };
 
-  const removeTask = (id: number) => {
+  const removeTask = async (id: number) => {
+    await fetch("https://api-bootcamp-production.up.railway.app/tasks/" + id, {
+      method: "delete",
+    });
     setTasks((old) => old.filter((task) => task.id !== id));
   };
 
@@ -73,7 +76,9 @@ export const TaskManager = () => {
       <ul>
         {tasks.map((task) => (
           <li key={task.id} style={{ display: "flex" }}>
-            <div>{task.name}</div>
+            <div>
+              {task.id} - {task.name}
+            </div>
             <button
               type="button"
               onClick={() => {
