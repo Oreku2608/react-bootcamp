@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type Task = {
   id: number;
@@ -9,6 +9,16 @@ type Task = {
 export const TaskManager = () => {
   const [taskName, setTaskName] = useState("");
   const [tasks, setTasks] = useState<Task[]>([]);
+
+  useEffect(() => {
+    const fn = async () => {
+      const data = await fetch(
+        "https://api-bootcamp-production.up.railway.app/tasks"
+      );
+      console.log(data);
+    };
+    fn();
+  }, []);
 
   const addTask = (name: string) => {
     const task: Task = {
