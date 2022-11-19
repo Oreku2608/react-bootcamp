@@ -16,28 +16,40 @@ export const TaskManager = () => {
       name,
       completed: false,
     };
+    setTaskName("");
     setTasks((old) => [...old, task]);
   };
 
   return (
     <>
-      <code>{JSON.stringify(tasks)}</code>
-      <input
-        value={taskName}
-        onChange={(ev) => {
-          const { value } = ev.target;
-          setTaskName(value);
-        }}
-        type="text"
-        placeholder="Task Name ..."
-      />
-      <button
-        onClick={() => {
-          addTask(taskName);
+      <form
+        onSubmit={(ev) => {
+          ev.preventDefault();
         }}
       >
-        Add Task
-      </button>
+        <input
+          value={taskName}
+          onChange={(ev) => {
+            const { value } = ev.target;
+            setTaskName(value);
+          }}
+          type="text"
+          placeholder="Task Name ..."
+        />
+        <button
+          type="submit"
+          onClick={() => {
+            addTask(taskName);
+          }}
+        >
+          Add Task
+        </button>
+      </form>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task.id}>{task.name}</li>
+        ))}
+      </ul>
     </>
   );
 };
